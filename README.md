@@ -48,13 +48,23 @@ Add this to the end of your settings.php or settings.local.php.
 If you're putting it in settings.local.php also make sure that settings.local.php is included from within your settings.php.
 Make sure to rebuild your cache after that (drush cr).
 
-// Include Kint class.
-include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
+      // Include Kint class.
+      include_once(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php');
 
-// If debugging is very slow or leads to WSOD reduce the number
-// of levels of information shown by Kint.
-// Change Kint maxLevels setting:
-if (class_exists('Kint')){
-  // Set the maxlevels to prevent out-of-memory. Currently there doesn't seem to be a cleaner way to set this:
-  Kint::$maxLevels = 4;
-}
+      // If debugging is very slow or leads to WSOD reduce the number
+      // of levels of information shown by Kint.
+      // Change Kint maxLevels setting:
+      if (class_exists('Kint')){
+        // Set the maxlevels to prevent out-of-memory. Currently there doesn't seem to be a cleaner way to set this:
+        Kint::$maxLevels = 4;
+      }
+      
+ Other Method
+ 
+ Limit debug output
+ 
+      // Prevent Kint from loading too much debug output and crashing the request.
+      if (file_exists("$app_root/modules/contrib/devel/kint/kint/Kint.class.php")) {
+      require_once "$app_root/modules/contrib/devel/kint/kint/Kint.class.php";
+      Kint::$maxLevels = 4;
+      }
